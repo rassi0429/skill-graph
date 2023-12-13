@@ -10,7 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model TestTable {
-  id   Int     @id @default(autoincrement())
-  col1 String?
+model Skill {
+  id       Int     @id @default(autoincrement())
+  parents  Skill[] @relation("SkillToSkill")
+  children Skill[] @relation("SkillToSkill")
+
+  title       String?
+  description String?
+  image       String?
+  content     String?
 }
