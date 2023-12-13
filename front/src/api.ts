@@ -3,8 +3,8 @@
 
 import {Skill} from "./App.tsx";
 
-export const getAllSkills = async () => {
-    const response = await fetch(`/api/skills`);
+export const getAllSkills = async (showBlog: boolean = false) => {
+    const response = await fetch(`/api/skills?showBlog=${showBlog}`);
     return response.json();
 }
 

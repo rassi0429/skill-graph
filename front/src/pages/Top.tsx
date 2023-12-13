@@ -10,6 +10,8 @@ export const Top = () => {
 
     const [skills, setSkills] = useState<Skill[]>([])
 
+    const [showBlog, setShowBlog] = useState<boolean>(false)
+
     const parentRef = useRef<HTMLInputElement>(null)
     const  childRef = useRef<HTMLInputElement>(null)
     const parentRef2 = useRef<HTMLInputElement>(null)
@@ -37,14 +39,21 @@ export const Top = () => {
     }
 
     useEffect(() => {
-        getAllSkills().then((res) => {
+        getAllSkills(showBlog).then((res) => {
             setSkills(res)
         })
-    }, []);
+    }, [showBlog]);
 
     return (
         <>
             <SkillMap skills={skills} width={window.innerWidth} height={600}/>
+            <Button sx={{
+                position: "fixed",
+                top: 60,
+                left: 10,
+            }} variant={"outlined"} onClick={() => {
+                setShowBlog(!showBlog)
+            }}>ブログを{!showBlog ? "隠す" : "表示する"}</Button>
             <div>
                 !!!同時編集できません!!! 上書きになっちゃうので新しい記事を編集することをお勧めします。<br />
                 記事名をクリックすると詳細画面にいける。<br/>

@@ -18,14 +18,14 @@ export type Skill = {
     content: string
     parents: Skill[]
     children?: Skill[]
+    rank?: number
+    type: "knowledge" | "blog"
 }
 
 
 function App() {
     const {} = useAppState()
     const {language} = useTranslation()
-
-
 
     return (
         <>
@@ -35,7 +35,6 @@ function App() {
                 <Route index element={<Top />}/>
                 <Route path={"/skill/:id"} element={<SkillViewer />}/>
             </Routes>
-
         </>
     )
 }

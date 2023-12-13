@@ -20,7 +20,12 @@ if (process.env.NODE_ENV === "production") {
 
 // get all skills
 app.get("/api/skills", async (req, res) => {
+    const query = req.query
+    const showBlog = query.showBlog === "true"
+    const queryObj = showBlog ? {type: "knowledge"} : {OR: [{type: "knowledge"}, {type: "blog"}]}
+
     const skills = await prisma.skill.findMany({
+        where: queryObj,
         include: {
             parents: true
         }
@@ -73,6 +78,8 @@ app.post("/api/skill/:id", async (req, res) => {
             description: req.body.description,
             image: req.body.image,
             content: req.body.content,
+            rank: req.body.rank,
+            type: req.body.type,
         }
     })
     res.json(skill)

@@ -8,7 +8,7 @@ import {SkillMap} from "../components/SkillMap.tsx";
 import SimpleMde from "react-simplemde-editor";
 import {MDXEditor} from "@mdxeditor/editor";
 import "easymde/dist/easymde.min.css";
-import {Box, Button, Container, TextField, useMediaQuery} from "@mui/material";
+import {Box, Button, Container, MenuItem, Select, TextField, useMediaQuery} from "@mui/material";
 
 export const SkillViewer = () => {
     // get skill id from router
@@ -51,6 +51,16 @@ export const SkillViewer = () => {
                                onChange={(e) => {
                                    setSkill({...skill, description: e.target.value})
                                }}/>
+                    <TextField id="rank" type={"number"} label="rank" variant="outlined" value={skill.rank}
+                               onChange={(e) => {
+                                   setSkill({...skill, rank: Number(e.target.value) || undefined})
+                               }}/>
+                    <Select label={"type"} value={skill.type} onChange={(e) => {
+                        setSkill({...skill, type: e.target.value})
+                    }}>
+                        <MenuItem value={"knowledge"}>knowledge</MenuItem>
+                        <MenuItem value={"blog"}>blog</MenuItem>
+                    </Select>
                     <Button variant={"outlined"} onClick={() => {
                         setEditMode(false)
                         saveSkill(skill)

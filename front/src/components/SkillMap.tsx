@@ -20,6 +20,7 @@ const transformSkills = (skills: Skill[]) => {
             image: skill.image,
             content: skill.content,
             parents: skill.parents,
+            rank: skill.rank,
         })),
         links: skills.map((skill) => {
             return skill.parents?.map((parent) => ({
@@ -56,16 +57,23 @@ export const SkillMap = ({skills, width, height, highlight}: SkillMapProps) => {
             nodeCanvasObject={(node, ctx, globalScale) => {
                 // Title box
                 const label = `${node.id}: ${node.title}`
-                const fontSize = 12 / globalScale
+                let fontSize = (12 / globalScale) * 0.8
+                if(node.rank) {
+                   fontSize = (12 / globalScale) * ((5 - node.rank) * 0.3)
+                }
                 ctx.font = `${fontSize}px Sans-Serif`
                 const textWidth = ctx.measureText(label).width
                 const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 1)
 
-                if(node.id == highlight?.id) {
+                if (node.id == highlight?.id) {
                     ctx.fillStyle = 'rgba(255,249,184,0.8)'
+                } else if(node.rank) {
+                    ctx.fillStyle = `rgba(255,${255 - (node.rank * 20)},${255 - (node.rank * 20)},0.8)`
                 } else {
                     ctx.fillStyle = 'rgba(122,122,122,0.8)'
                 }
+
+
                 ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions)
 
                 ctx.textAlign = 'center'
