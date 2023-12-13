@@ -32,10 +32,14 @@ export const SkillViewer = () => {
         return <h1>loading</h1>
     }
 
+    // remove duplicate
+    const skillList = [...skill.parents, skill, ...skill.children, ...skill.children?.map(s => [...s.parents])].flat().filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i)
+
+
     if (editMode) {
         return (
             <>
-                <SkillMap height={160}  highlight={skill} width={window.innerWidth} skills={[...skill.parents, skill, ...skill.children]}/>
+                <SkillMap height={160}  highlight={skill} width={window.innerWidth} skills={skillList}/>
                 <Box
                     sx={{
                         '& > :not(style)': { m: 1 },
@@ -68,7 +72,7 @@ export const SkillViewer = () => {
     return (
         <>
             <SkillMap height={250} width={window.innerWidth} highlight={skill}
-                      skills={[...skill.parents, skill, ...skill.children]}/>
+                      skills={skillList}/>
             <Container maxWidth={"sm"} sx={{paddingTop: 1}}>
                 <Button variant={"outlined"} onClick={() => {
                     setEditMode(true)
